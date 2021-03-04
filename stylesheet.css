@@ -1,13 +1,19 @@
+body{
+   
+}
+
 #calculatorContainer{
     width: 500px;
     height: 500px;
+    background-color: gray;
     border: 10px solid black;
     margin: auto;
 }
 #display{
     width: 500px;
     height: 100px;
-    border-bottom: 5px solid gray;
+    background: gray;
+    border-bottom: 5px solid black;
     font-size: 40px;
     
 }

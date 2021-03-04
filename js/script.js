@@ -17,7 +17,7 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-    return a/b;
+    return (b!=0)? a/b:'Blackhole Initiated';
 }
 
 function operate(a,b,operator){
@@ -38,6 +38,14 @@ function operate(a,b,operator){
     } 
 }
 
+function dotChecker(toCheck){
+    let dot = document.querySelector('#dot');
+    for(let i = 0; i<toCheck.length;i++){
+        if(toCheck.charAt(i)=='.'){
+            dot.disabled = true;
+        }
+    }
+}
 
 function toDisplay(e){
     let display = document.querySelector('#display');
@@ -46,13 +54,17 @@ function toDisplay(e){
     else{
         display.textContent = e;
     }
-
+    
+    dotChecker(display.textContent);
 
 } 
 
 function toClear(){
     let display = document.querySelector('#display');
     display.textContent = '';
+    a='';
+    b='';
+    total = '';
 }
 
 function reverse(string){
@@ -60,7 +72,7 @@ function reverse(string){
     let reversed = split.reverse();
     let reversedString = reversed.join('');
 
-    return parseInt(reversedString);
+    return parseFloat(reversedString);
 }
 
 function saveValue(e){
@@ -84,27 +96,39 @@ function saveValue(e){
     }
     else{
         b=value;
-        total += operate(a,b,lastOperator);
-        a=b;     
+        total = operate(a,b,lastOperator);
+        a=total;     
     }
-    console.log(lastOperator);
-    lastOperator = operator;
-    console.log(operator);
-    if(typeof(b)=='number'){
-    toDisplay(total);}
-    
+    lastOperator = operator; 
 }
 
+
+function displayTotal(e){
+    if(typeof(lastOperator)!='string'){
+        toDisplay('Invalid Syntax');
+        return 0;
+    }
+    saveValue(e);
+    toDisplay(total);
+}
+
+function deleteCharacter(e){
+    let display = document.querySelector('#display');
+    let newString = display.textContent;
+
+    display.textContent = newString.substr(0,newString.length-1);
+}
 const displayNumber = document.querySelectorAll('.number');
 displayNumber.forEach (button => button.addEventListener('click',toDisplay));
-
-// const displayOperation = document.querySelectorAll('.operation');
-// displayOperation.forEach (button => button.addEventListener('click',toDisplay));
-
-
 
 const clear = document.querySelector('#clear');
 clear.addEventListener('click',toClear);
 
 const operationPressed = document.querySelectorAll('.operation');
 operationPressed.forEach (button => button.addEventListener('click',saveValue));
+
+const equals = document.querySelector('#equals');
+equals.addEventListener('click',displayTotal);
+
+const backspace = document.querySelector('#backspace');
+backspace.addEventListener('click',deleteCharacter)
